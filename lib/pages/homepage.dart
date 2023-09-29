@@ -1,5 +1,8 @@
 import 'package:chatapp/pages/chat.dart';
+import 'package:chatapp/pages/qr_code_scann.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
@@ -43,7 +46,9 @@ class HomePage extends StatelessWidget {
                       style: TextStyle(color: Colors.white,fontSize: 20, fontWeight: FontWeight.w500),textAlign: TextAlign.center,),
                       const SizedBox(height: 9),
                       ElevatedButton.icon(
-                        onPressed: () {}, 
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/qr_scan');
+                        }, 
                         icon: const Icon(Icons.qr_code,size: 50,), 
                         label: const Text('QR-Code scannen'))
                     ],
@@ -73,3 +78,4 @@ class HomePage extends StatelessWidget {
     );
   }
 }
+

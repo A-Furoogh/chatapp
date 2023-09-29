@@ -1,4 +1,5 @@
 import 'package:chatapp/pages/homepage.dart';
+import 'package:chatapp/pages/qr_code_scann.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,6 +13,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      routes: {
+        '/home':(context) => HomePage(),
+        '/qr_scan':(context) => const QRCodeScan(),
+      },
       debugShowCheckedModeBanner: false,
       title: 'Keywaa',
       home: HomePage(),
