@@ -13,6 +13,20 @@ class Chat extends StatefulWidget {
 }
 
 class _ChatState extends State<Chat> {
+
+  TextEditingController _textController = TextEditingController();
+  void _sendMessage(){
+    final message = Message(
+                  text: _textController.text,
+                  date: DateTime.now(),
+                  isSentByMe: true,
+                );
+    setState(() {
+      messages.add(message);
+      _textController = null;
+    });
+  }
+
   List<Message> messages = [
     Message(
       text: 'Hi Wie gehts dir?',
@@ -90,23 +104,35 @@ class _ChatState extends State<Chat> {
               ),
             ),
           ),
-          Container(
-            color: Colors.grey.shade200,
-            child: TextField(
-              decoration: const InputDecoration(
-                contentPadding: EdgeInsets.all(12),
-                hintText: 'Nachricht schreiben...',
-              ),
-              onSubmitted: (text) {
-                final message = Message(
-                  text: text,
-                  date: DateTime.now(),
-                  isSentByMe: true,
-                );
-                setState(() => messages.add(message));
-              },
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    decoration: const InputDecoration(
+                      contentPadding: EdgeInsets.all(12),
+                      hintText: 'Nachricht schreiben...',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(40)),
+                        borderSide: BorderSide(color: Colors.white54),
+                      )
+                    ),
+                    controller: _textController,
+                    onSubmitted: (text) {
+                      
+                    },
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {
+                    _sendMessage();
+                  },
+                  icon: const Icon(Icons.send),
+                )
+              ],
             ),
-          )
+          ),
         ],
       ),
     );
