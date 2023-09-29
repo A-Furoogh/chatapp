@@ -1,3 +1,4 @@
+import 'package:chatapp/pages/chat.dart';
 import 'package:chatapp/pages/homepage.dart';
 import 'package:chatapp/pages/qr_code_scann.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/home':(context) => HomePage(),
         '/qr_scan':(context) => const QRCodeScan(),
+        '/chat_Seite':(context) => const Chat(),
       },
       debugShowCheckedModeBanner: false,
       title: 'Keywaa',

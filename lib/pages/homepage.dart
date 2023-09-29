@@ -61,12 +61,17 @@ class HomePage extends StatelessWidget {
                   color: Colors.blue,
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: const Padding(
-                  padding: EdgeInsets.all(8.0),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
                   child: Column(
                     children: [
-                      Text('Weiter chatten',
+                      const Text('Weiter chatten',
                       style: TextStyle(fontSize: 20, color: Colors.white),),
+
+                      ElevatedButton(
+                        onPressed: () => Navigator.pushNamed(context, '/chat_Seite'),
+                        child: const Text('Zur Chat-Seite'),
+                      )
                     ],
                   ),
                 ),
