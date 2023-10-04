@@ -7,10 +7,9 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 class HomePage extends StatelessWidget {
   HomePage({super.key});
 
-  final List _chats = [
-    'Erster Chat',
-    'Zweiter Chat',
-    'Dritter Chat',
+  final List<Chat> _chats = [
+    const Chat(chatId: 1212),
+    const Chat(chatId: 1313)
   ];
 
   @override
@@ -55,7 +54,7 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 40),
+              const SizedBox(height: 60),
               Container(
                 decoration: BoxDecoration(
                   color: Colors.blue,
@@ -63,17 +62,51 @@ class HomePage extends StatelessWidget {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      const Text('Weiter chatten',
-                      style: TextStyle(fontSize: 20, color: Colors.white),),
-
-                      ElevatedButton(
-                        onPressed: () => Navigator.pushNamed(context, '/chat_Seite'),
-                        child: const Text('Zur Chat-Seite'),
-                      )
-                    ],
+                  child: SizedBox( height: 200,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Text('Weiter chatten',
+                        style: TextStyle(fontSize: 24, color: Colors.white),),
+                  
+                        Expanded(
+                          child: ListView.builder(
+                            itemCount: _chats.length,
+                            itemBuilder: (context, index) {
+                              final chat = _chats[index];
+                              return Card(color: Colors.blue[50],
+                                shape: RoundedRectangleBorder(
+                                  side: const BorderSide(color: Colors.black38, width: 3),
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                child: ListTile(
+                                  title: Text('Chat ID: ${chat.chatId}', 
+                                              style: const TextStyle(fontSize: 18, 
+                                                    fontWeight: FontWeight.bold),),
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => Chat(chatId: chat.chatId)),
+                                      );
+                                  },
+                                ),
+                              );
+                            },
+                          ),
+                        )
+                      ],
+                    ),
                   ),
+                ),
+              ),
+              const Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    SizedBox(height: 80),
+                    Text('Reimedia GmbH', style: TextStyle(fontSize: 18)),
+                    Text('Amtsstr. 25a, 59073 Hamm'),
+                  ],
                 ),
               ),
             ],

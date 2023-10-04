@@ -5,8 +5,8 @@ import 'package:intl/intl.dart';
 
 class Chat extends StatefulWidget {
 
-
-  const Chat({super.key});
+  final int? chatId;
+  const Chat({super.key, this.chatId});
 
   @override
   State<Chat> createState() => _ChatState();
@@ -14,7 +14,7 @@ class Chat extends StatefulWidget {
 
 class _ChatState extends State<Chat> {
 
-  TextEditingController _textController = TextEditingController();
+  final TextEditingController _textController = TextEditingController();
   void _sendMessage(){
     final message = Message(
                   text: _textController.text,
@@ -23,19 +23,19 @@ class _ChatState extends State<Chat> {
                 );
     setState(() {
       messages.add(message);
-      _textController = null;
+      _textController.clear();
     });
   }
 
   List<Message> messages = [
     Message(
       text: 'Hi Wie gehts dir?',
-      date:  DateTime.now().subtract(const Duration(days: 5, minutes: 1)),
+      date:  DateTime.now().subtract(const Duration(days: 5, minutes: 2)),
       isSentByMe: false,
     ),
     Message(
       text: 'gut, und dir?',
-      date:  DateTime.now().subtract(const Duration(days: 4, minutes: 4)),
+      date:  DateTime.now().subtract(const Duration(days: 5, minutes: 1)),
       isSentByMe: true,
     ),
     Message(
@@ -45,7 +45,7 @@ class _ChatState extends State<Chat> {
     ),
     Message(
       text: 'schicke das bitte an meine Addresse',
-      date:  DateTime.now().subtract(const Duration(days: 2, minutes: 3)),
+      date:  DateTime.now().subtract(const Duration(days: 3, minutes: 3)),
       isSentByMe: true,
     ),
     Message(
@@ -53,7 +53,7 @@ class _ChatState extends State<Chat> {
       date:  DateTime.now().subtract(const Duration(days: 1, minutes: 1)),
       isSentByMe: false,
     )
-  ].reversed.toList();
+  ].toList();     // reversed.toList();
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +84,7 @@ class _ChatState extends State<Chat> {
                     child: Padding(
                       padding: const EdgeInsets.all(8),
                       child: Text(
-                        DateFormat.yMMMd().format(message.date),
+                        DateFormat('d.MMM.y').format(message.date), // DateFormat.yMMMd().format
                         style: const TextStyle(color: Colors.white),
                       ),
                     ),
@@ -120,7 +120,7 @@ class _ChatState extends State<Chat> {
                     ),
                     controller: _textController,
                     onSubmitted: (text) {
-                      
+                      _sendMessage();
                     },
                   ),
                 ),
