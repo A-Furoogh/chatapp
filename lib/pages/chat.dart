@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:chatapp/models/message.dart';
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 class Chat extends StatefulWidget {
@@ -15,6 +18,7 @@ class Chat extends StatefulWidget {
 class _ChatState extends State<Chat> {
 
   final TextEditingController _textController = TextEditingController();
+
   void _sendMessage(){
     final message = Message(
                   text: _textController.text,
@@ -25,6 +29,23 @@ class _ChatState extends State<Chat> {
       messages.add(message);
       _textController.clear();
     });
+  }
+
+  void _sendPhoto() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if(pickedFile != null){
+      final message = Message(
+        text: '', 
+        date: DateTime.now(), 
+        isSentByMe: true,
+        imagePath: pickedFile.path);
+
+        setState(() {
+          messages.add(message);
+        });
+    }
   }
 
   List<Message> messages = [
@@ -98,7 +119,13 @@ class _ChatState extends State<Chat> {
                   elevation: 8,
                   child: Padding(
                     padding: const EdgeInsets.all(12),
-                    child: Text(message.text),
+                    child: message.imagePath.isNotEmpty
+                        ? Image.file(
+                          File(message.imagePath),
+                          width: 200,
+                          height: 200,
+                          fit: BoxFit.cover)
+                        : Text(message.text),
                   ),
                 ),
               ),
@@ -119,17 +146,22 @@ class _ChatState extends State<Chat> {
                       )
                     ),
                     controller: _textController,
-                    onSubmitted: (text) {
-                      _sendMessage();
+                    onChanged: (text) {
+                      setState(() {
+                        
+                      });
                     },
+                    onSubmitted: (value) => 
+                      _sendMessage(),
                   ),
                 ),
-                IconButton(
-                  onPressed: () {
-                    _sendMessage();
-                  },
-                  icon: const Icon(Icons.send),
-                )
+                _textController.text.isEmpty
+                  ? IconButton(
+                    onPressed: _sendPhoto, 
+                    icon: const Icon(Icons.photo))
+                  : IconButton(
+                    onPressed: _sendMessage, 
+                    icon: const Icon(Icons.send))
               ],
             ),
           ),

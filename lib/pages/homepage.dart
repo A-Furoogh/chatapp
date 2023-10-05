@@ -1,15 +1,14 @@
 import 'package:chatapp/pages/chat.dart';
-import 'package:chatapp/pages/qr_code_scann.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
 
   final List<Chat> _chats = [
     const Chat(chatId: 1212),
-    const Chat(chatId: 1313)
+    const Chat(chatId: 1313),
+    const Chat(chatId: 1414,),
+    const Chat(chatId: 1515,)
   ];
 
   @override
@@ -21,8 +20,12 @@ class HomePage extends StatelessWidget {
         centerTitle: true,
       ),
       body: Container(
-        decoration: BoxDecoration(
-          color: Colors.lightBlue[50]
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Color.fromARGB(255, 208, 211, 218), Color.fromARGB(255, 157, 196, 219)],
+          )
         ),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -31,12 +34,12 @@ class HomePage extends StatelessWidget {
               const Text('Willkomen bei Keywaa',
               style: TextStyle(fontSize: 30),),
               const SizedBox(height: 20,),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Colors.blue[900],
+              Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)
                 ),
-                alignment: Alignment.center,
+                color: Colors.blue[800],
+                elevation: 10,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
@@ -48,18 +51,19 @@ class HomePage extends StatelessWidget {
                         onPressed: () {
                           Navigator.pushNamed(context, '/qr_scan');
                         }, 
-                        icon: const Icon(Icons.qr_code,size: 50,), 
+                        icon: const Icon(Icons.qr_code_2,size: 50,), 
                         label: const Text('QR-Code scannen'))
                     ],
                   ),
                 ),
               ),
               const SizedBox(height: 60),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                  borderRadius: BorderRadius.circular(10),
+              Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)
                 ),
+                elevation: 10,
+                color: Colors.blue,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: SizedBox( height: 200,
@@ -74,7 +78,7 @@ class HomePage extends StatelessWidget {
                             itemCount: _chats.length,
                             itemBuilder: (context, index) {
                               final chat = _chats[index];
-                              return Card(color: Colors.blue[50],
+                              return Card(color: index % 2 == 0 ? Colors.lightGreen[100] : Colors.grey[100],
                                 shape: RoundedRectangleBorder(
                                   side: const BorderSide(color: Colors.black38, width: 3),
                                   borderRadius: BorderRadius.circular(15),

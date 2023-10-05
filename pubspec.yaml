@@ -38,6 +38,7 @@ dependencies:
   flutter_barcode_scanner:
   grouped_list:
   intl:
+  image_picker:
 
 dev_dependencies:
   flutter_test:
