@@ -31,22 +31,71 @@ class _ChatState extends State<Chat> {
     });
   }
 
-  void _sendPhoto() async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+  Future<void> _sendPhoto() async {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Quelle für Bild auswählen'),
+        actions: <Widget>[
+          Row(mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextButton.icon(
+                onPressed: () async {
+                  Navigator.of(context).pop();
+                  final picker = ImagePicker();
+                  final pickedFile = await picker.pickImage(source: ImageSource.camera);
+                  _processImage(pickedFile);
+                },
+                label: const Text('Kamera'),
+                icon: const Icon(Icons.camera_alt),
+              ),
+              TextButton.icon(
+                onPressed: () async {
+                  Navigator.of(context).pop();
+                  final picker = ImagePicker();
+                  final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+                  _processImage(pickedFile);
+                },
+                label: const Text('Galerie'),
+                icon: const Icon(Icons.photo_library)
+              ),
+            ],
+          ),
+        ],
+      );
+    },
+  );
+}
 
-    if(pickedFile != null){
-      final message = Message(
-        text: '', 
-        date: DateTime.now(), 
-        isSentByMe: true,
-        imagePath: pickedFile.path);
+  void _processImage(XFile? pickedFile) {
+  if (pickedFile != null) {
+    final message = Message(
+      text: '',
+      date: DateTime.now(),
+      isSentByMe: true,
+      imagePath: pickedFile.path,
+    );
 
-        setState(() {
-          messages.add(message);
-        });
-    }
+    setState(() {
+      messages.add(message);
+    });
   }
+}
+
+  Future<void> _showImageDialog(String imagePath) async {
+  await showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return Dialog(
+        child: Image.file(
+          File(imagePath),
+          fit: BoxFit.contain,
+        ),
+      );
+    },
+  );
+}
 
   List<Message> messages = [
     Message(
@@ -115,17 +164,24 @@ class _ChatState extends State<Chat> {
               itemBuilder: (context, Message message) => Align(
                 alignment: message.isSentByMe
                       ? Alignment.centerRight : Alignment.centerLeft,
-                child: Card(
-                  elevation: 8,
-                  child: Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: message.imagePath.isNotEmpty
-                        ? Image.file(
-                          File(message.imagePath),
-                          width: 200,
-                          height: 200,
-                          fit: BoxFit.cover)
-                        : Text(message.text),
+                child: GestureDetector(
+                  onTap: () {
+                    if (message.imagePath.isNotEmpty) {
+                      _showImageDialog(message.imagePath);
+                    }
+                  },
+                  child: Card(
+                    elevation: 8,
+                    child: Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: message.imagePath.isNotEmpty
+                          ? Image.file(
+                            File(message.imagePath),
+                            width: 200,
+                            height: 200,
+                            fit: BoxFit.cover)
+                          : Text(message.text),
+                    ),
                   ),
                 ),
               ),
