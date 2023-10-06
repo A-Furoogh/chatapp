@@ -34,26 +34,29 @@ class HomePage extends StatelessWidget {
               const Text('Willkomen bei Keywaa',
               style: TextStyle(fontSize: 30),),
               const SizedBox(height: 20,),
-              Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)
-                ),
-                color: Colors.blue[800],
-                elevation: 10,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      const Text('Haben Sie etwas gefunden und möchten es zurückgeben?',
-                      style: TextStyle(color: Colors.white,fontSize: 20, fontWeight: FontWeight.w500),textAlign: TextAlign.center,),
-                      const SizedBox(height: 9),
-                      ElevatedButton.icon(
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/qr_scan');
-                        }, 
-                        icon: const Icon(Icons.qr_code_2,size: 50,), 
-                        label: const Text('QR-Code scannen'))
-                    ],
+              GestureDetector(
+                onTap: () => Navigator.pushNamed(context, '/qr_scan'),
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)
+                  ),
+                  color: Colors.blue[800],
+                  elevation: 10,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        const Text('Haben Sie etwas gefunden und möchten es zurückgeben?',
+                        style: TextStyle(color: Colors.white,fontSize: 20, fontWeight: FontWeight.w500),textAlign: TextAlign.center,),
+                        const SizedBox(height: 9),
+                        ElevatedButton.icon(
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/qr_scan');
+                          }, 
+                          icon: const Icon(Icons.qr_code_2,size: 50,), 
+                          label: const Text('QR-Code scannen'))
+                      ],
+                    ),
                   ),
                 ),
               ),
